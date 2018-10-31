@@ -16,21 +16,34 @@ wrong symbol error
 overflow error
 wrong parens error
 
-interpretation methods:
-
-seperate + order terms in parens
-compute terms in parens
-compute final term
-output and input
 '''
-def calculate():
-    expression = input("Enter the term to be calculated press ctrl+c to quit:  ")
-    answer = eval(expression)
-    return answer
+def getInput():
+    expressionStr = input("Enter the term to be calculated press ctrl+c to quit:  ")
+    return expressionStr
+
+def simplify(expressionStr):
+    isOk = True
+    #test to only use corect operators
+    if("//" in expressionStr or "|" in expressionStr or "~" in expressionStr or ">>" in expressionStr or "<<" in expressionStr or
+       "and" in expressionStr or "or" in expressionStr or "not" in expressionStr or "<" in expressionStr or ">" in expressionStr or "==" in expressionStr
+       or "!=" in expressionStr or ">=" in expressionStr or "<=" in expressionStr or "%" in expressionStr or "**" in expressionStr):
+        return False
+    return isOk
+
+print("This is my calculator with which python was used to create.  A note of importance: please do not include "+
+      "an '=' sign in your mathematical expression as it is not needed.\n")
+      
 while True:
+    #make sure only the operands specified in the lab can be used
     try:
-        answer = calculate()
-        print(answer)
+        expressionStr = getInput()
+        if (simplify(expressionStr)):
+            if("^" in expressionStr):
+                expressionStr = expressionStr.replace("^", "**")
+            answer = eval(expressionStr)
+            print(answer)
+        else:
+            print("You have used an improper syntax or operands")
     except ZeroDivisionError:
         print ("Error division by 0")
 
@@ -38,7 +51,7 @@ while True:
         print("Name error please use numbers")
 
     except TypeError:
-        print("To use exponentiation please use ** instead of ^")
+        print("Type error please use proper syntax")
 
     except SyntaxError:
         print("You have used improper syntax in your expression")
